@@ -12,17 +12,21 @@
             <input type="text" placeholder="Отчество" asp-for="_user.UserSurname" />
             <input type="Date" placeholder="Дата рождения" asp-for="_user.BirthDate " />
             <input type="number" placeholder="Паспорт серия" asp-for="_user.PassportSerial" />
-            <input type="number" placeholder="Паспорт номер" asp-for="_user.PasportNumber" />
-            <input type="text" placeholder="Организация" asp-for="_user.UserOrganization" />
+            <input type="number" placeholder="Паспорт номер" asp-for="_user.PassportNumber" />
+            @if (true)
+            {
+                
+            }
+            <input type="text" placeholder="Организация" asp-for="_user.UserOrganizationId" />
 
             <input type="submit" value="Добавить сотрудника" />
         </form>
     </div>
 
     <div>
-        @foreach (var employee in )
+        @foreach (var user in Model.Users)
         {
-
+            <div>@user.UserName</div>
         }
     </div>
 </div>

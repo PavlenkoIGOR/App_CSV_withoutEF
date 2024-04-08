@@ -1,15 +1,15 @@
 ﻿using App_CSV_withoutEF.Data.Models;
 using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Formats.Asn1.AsnWriter;
+using Microsoft.Extensions.Configuration;
 
 namespace App_CSV_withoutEF.BLL.Repository
 {
-    public class CommonRepo
+    public interface ICommonRepo
+    {
+        public Task<int> AddEntity(Object entity);
+    }
+
+    public class CommonRepo : ICommonRepo
     {
         private IConfiguration _conf;
         public CommonRepo(IConfiguration conf)
@@ -17,62 +17,47 @@ namespace App_CSV_withoutEF.BLL.Repository
             _conf = conf;
         }
 
-        public int AddEntity(Object entity)
+        public async Task<int> AddEntity(Object entity)
         {
             int entityId = 0;
 
-            string connectionString =  .GetConnectionString("ConnectToforRazorDB");
+            string connectionString = _conf.GetConnectionString("ConnectToWebApp_toCSV_DB");
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                connection.Open();
+                await connection.OpenAsync();
                 using (var command = connection.CreateCommand())
                 {
                     if (entity is User)
                     {
                         string[] roles = { "administrator", "moderator", "user" };
-                        command.CommandText = "INSERT INTO Users (name, age, email, password, role, registration_date) OUTPUT INSERTED.id VALUES (@name, @age, @email, @password, @role, @registration_date)";
-                        command.Parameters.AddWithValue("@name", (entity as User).UserName);
-                        command.Parameters.AddWithValue("@age", (entity as User).UserAge);
-                        command.Parameters.AddWithValue("@email", (entity as User).UserEmail);
-                        command.Parameters.AddWithValue("@password", (entity as User).Password);
-                        command.Parameters.AddWithValue("@role", roles[1]);
-                        command.Parameters.AddWithValue("@registration_date", DateTime.UtcNow);
+                        command.CommandText = "INSERT INTO users (username, userlastname, usersurname, userbirthdate, passportserial, passportnumber, organization_id) OUTPUT INSERTED.id VALUES (@username, @userlastname, @usersurname, @userbirthdate, @passportserial, @passportnumber, @organization_id)";
+                        command.Parameters.AddWithValue("@username", (entity as User).UserName);
+                        command.Parameters.AddWithValue("@userlastname", (entity as User).UserLastname);
+                        command.Parameters.AddWithValue("@usersurname", (entity as User).UserSurname);
+                        command.Parameters.AddWithValue("@userbirthdate", (entity as User).BirthDate);
+                        command.Parameters.AddWithValue("@passportserial", (entity as User).PassportSerial);
+                        command.Parameters.AddWithValue("@passportnumber", (entity as User).PassportNumber);
+                        command.Parameters.AddWithValue("@organization_id", (entity as User).UserOrganizationId);
 
                         entityId = (int)(command.ExecuteScalar());
                     }
                     //await command.ExecuteNonQueryAsync();
-                    if (entity is Store)
+                    if (entity is Organization)
                     {
-                        command.CommandText = "INSERT INTO Stores (title, address, startServiceTime, finishServiceTime, email) OUTPUT INSERTED.id VALUES (@title, @address, @startServiceTime, @finishServiceTime, @email)";
-                        command.Parameters.AddWithValue("@title", (entity as Store).Store_Title.ToUpper());
-                        command.Parameters.AddWithValue("@address", (entity as Store).Store_Address.ToUpper());
-                        command.Parameters.AddWithValue("@startServiceTime", (entity as Store).Store_StartServiceTime);
-                        command.Parameters.AddWithValue("@finishServiceTime", (entity as Store).Store_FinishServiceTime);
-                        command.Parameters.AddWithValue("@email", (entity as Store).Store_Email.ToUpper());
-
-                        entityId = (int)(command.ExecuteScalar());
-                    }
-                    if (entity is Track)
-                    {
-                        command.CommandText = "INSERT INTO Tracks (title, duration, album_id) OUTPUT INSERTED.id VALUES (@title, @duration, @album_id)";
-                        command.Parameters.AddWithValue("@title", (entity as Track).Track_Title.ToUpper());
-                        command.Parameters.AddWithValue("@duration", (entity as Track).Track_Duration);
-                        command.Parameters.AddWithValue("@album_id", (entity as Track).Album_Id);
-
-                        entityId = (int)(command.ExecuteScalar());
-                    }
-                    if (entity is Artist)
-                    {
-                        command.CommandText = "INSERT INTO Artists (artistname) OUTPUT INSERTED.id VALUES (@artistname)";
-                        command.Parameters.AddWithValue("@artistname", (entity as Artist).Name.ToUpper());
+                        command.CommandText = "INSERT INTO organizations (title, inn, uradress, factaddress) OUTPUT INSERTED.id VALUES (@title, @inn, @uradress, @factaddress)";
+                        command.Parameters.AddWithValue("@title", (entity as Organization).Title_ORG);
+                        command.Parameters.AddWithValue("@inn", (entity as Organization).INN_ORG);
+                        command.Parameters.AddWithValue("@uradress", (entity as Organization).UrAddress_ORG);
+                        command.Parameters.AddWithValue("@factaddress", (entity as Organization).FactAddress_ORG);
 
                         entityId = (int)(command.ExecuteScalar());
                     }
                 }
-                connection.Close();
+                await connection.CloseAsync();
             }
-
             return entityId;
         }
+
+        
     }
 }

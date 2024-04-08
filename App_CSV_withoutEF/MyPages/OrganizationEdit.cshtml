@@ -5,13 +5,10 @@
 <h1>Страница для работы с организациями</h1>
 
 <form style="display: grid;" method="post" asp-antiforgery="true">
-    <input type="text" placeholder="Фамилия" asp-for="_user.UserLastname" />
-    <input type="text" placeholder="Имя" asp-for="_user.UserName" />
-    <input type="text" placeholder="Отчество" asp-for="_user.UserSurname" />
-    <input type="Date" placeholder="Дата рождения" asp-for="_user.BirthDate " />
-    <input type="number" placeholder="Паспорт серия" asp-for="_user.PassportSerial" />
-    <input type="number" placeholder="Паспорт номер" asp-for="_user.PasportNumber" />
-    <input type="text" placeholder="Организация" asp-for="_user.UserOrganization" />
+    <input type="text" placeholder="Название организации" asp-for="_Organization.Title_ORG" />
+    <input type="text" placeholder="ИНН организации" asp-for="_Organization.INN_ORG" />
+    <input type="text" placeholder="Юр.адрес организации" asp-for="_Organization.UrAddress_ORG" />
+    <input type="text" placeholder="Факт.адрес организации" asp-for="_Organization.FactAddress_ORG" />
 
     <input type="submit" value="Добавить сотрудника" />
 </form>

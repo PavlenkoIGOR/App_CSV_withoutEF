@@ -12,7 +12,9 @@ namespace App_CSV_withoutEF
             builder.Services.AddRazorPages();
             builder.Services.AddRazorPages(opt => opt.RootDirectory = "/MyPages");
 
+            builder.Services.AddScoped<ICommonRepo, CommonRepo>();
             builder.Services.AddScoped<IUserRepo, UserRepo>();
+            builder.Services.AddScoped<IOrganizationRepo, OrganizationRepo>();
 
             var app = builder.Build();
             
@@ -31,6 +33,7 @@ namespace App_CSV_withoutEF
             app.UseRouting();
 
             app.UseAuthorization();
+            app.UseAuthentication();
 
             app.MapRazorPages();
 

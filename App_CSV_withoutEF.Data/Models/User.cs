@@ -8,13 +8,13 @@ namespace App_CSV_withoutEF.Data.Models
 {
     public class User
     {
-        public int Id { get; set; }
+        public int UserId { get; set; }
         public string UserName { get; set; }
         public string UserLastname { get; set; }
         public string UserSurname { get; set; }
         public DateTime BirthDate { get; set; }
         public int PassportSerial { get; set; }
-        public int PasportNumber { get; set; }
-        public Organization UserOrganization { get; set; }
+        public int PassportNumber { get; set; }
+        public int UserOrganizationId { get; set; }
     }
 }
