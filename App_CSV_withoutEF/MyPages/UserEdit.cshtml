@@ -23,20 +23,8 @@
             <input type="number" placeholder="Паспорт номер" asp-for="_user.PassportNumber" />
             <span asp-validation-for="_user.PassportNumber"></span>
 
-            @if (Model.Organizations != null)
-            {
-                @* @Html.DropDownListFor(model => model.Org_Title, Model.selectlist, "--Выберите организацию--", new{@class=""}) *@
-                @* <span asp-validation-for="@Model.Org_Title"></span> *@
-                <input type="submit" value="Добавить сотрудника" />
-            }
-            else
-            {
-                <input type="submit" value="Указать организацию" />
-            }
-
-            
-
-            
+            @Html.DropDownListFor(model => model.Org_Title, Model.orgs, "--Выберите организацию--", new { @class = "form-select" })
+            <input type="submit" value="Добавить сотрудника" />            
         </form>
     </div>
 

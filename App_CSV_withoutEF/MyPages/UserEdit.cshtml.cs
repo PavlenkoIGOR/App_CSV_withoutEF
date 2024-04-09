@@ -12,16 +12,10 @@ namespace App_CSV_withoutEF.MyPages
     {
         [BindProperty] public User _user { get; set; }
         [BindProperty] public IEnumerable<User> Users { get; set; }
-        public SelectList selectlist { get; set; }
-        [BindProperty] public List<Organization>? Organizations { get; set; }
-        public Organization Organization { get; set; }
-
-        [BindProperty(SupportsGet = true)] public string Org_Title { get; set; }
-
-        //[Required(ErrorMessage = "Не выбрана организация")]
-
-
-
+        [BindProperty] public string Org_Title { get; set; }
+        [BindProperty] public Organization Organization { get; set; }
+        public List<SelectListItem> orgs { get; set; }
+        public IEnumerable<Organization>? Organizations { get; set; }
 
 
         private ICommonRepo _CommonRepo;
@@ -41,16 +35,18 @@ namespace App_CSV_withoutEF.MyPages
             Organizations = await _OrganizationRepo.GetOrganizations();
             if (Organizations != null)
             {
-                selectlist = new SelectList(Organizations.Select(s => s.Title_ORG), "Title_ORG");
+                orgs = Organizations.Select(org => new SelectListItem
+                {
+                    Text = org.Title_ORG,
+                    Value = org.Title_ORG
+                }).ToList();
+
             }
-
-
-            List<Organization> organizations = new List<Organization>();
         }
-
-        public async void OnPost()
+        public async Task<IActionResult> OnPost()
         {
-            Organization org = await _OrganizationRepo.GetOrganizationByTitle(Org_Title);
+            string Title = Org_Title;
+            Organization org = await _OrganizationRepo.GetOrganizationByTitle(Title);
             User newUser = new User()
             {
                 UserName = _user.UserName,
@@ -62,6 +58,9 @@ namespace App_CSV_withoutEF.MyPages
                 UserOrganizationId = org.OrgId,
             };
             int userID = await _CommonRepo.AddEntity(newUser);
+            Organizations = await _OrganizationRepo.GetOrganizations();
+            Users = await _UserRepo.GetUsers();
+            return RedirectToPage("/UserEdit");
         }
     }
 }
