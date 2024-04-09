@@ -8,25 +8,64 @@
     <div>
         <form style="display: grid;" method="post" asp-antiforgery="true">
             <input type="text" placeholder="Фамилия" asp-for="_user.UserLastname" />
+            <span asp-validation-for="_user.UserLastname"></span>
+
             <input type="text" placeholder="Имя" asp-for="_user.UserName" />
+            <span asp-validation-for="_user.UserName"></span>
+
             <input type="text" placeholder="Отчество" asp-for="_user.UserSurname" />
+            <span asp-validation-for="_user.UserSurname"></span>
+
             <input type="Date" placeholder="Дата рождения" asp-for="_user.BirthDate " />
             <input type="number" placeholder="Паспорт серия" asp-for="_user.PassportSerial" />
-            <input type="number" placeholder="Паспорт номер" asp-for="_user.PassportNumber" />
-            @if (true)
-            {
-                
-            }
-            <input type="text" placeholder="Организация" asp-for="_user.UserOrganizationId" />
+            <span asp-validation-for="_user.PassportSerial"></span>
 
-            <input type="submit" value="Добавить сотрудника" />
+            <input type="number" placeholder="Паспорт номер" asp-for="_user.PassportNumber" />
+            <span asp-validation-for="_user.PassportNumber"></span>
+
+            @if (Model.Organizations != null)
+            {
+                @Html.DropDownListFor(model => model.Org_Title, Model.selectlist, "--Выберите организацию--", new{@class=""})
+                <input type="submit" value="Добавить сотрудника" />
+            }
+            else
+            {
+                <input type="submit" value="Указать организацию" />
+                @* <input type="text" placeholder="Организация" asp-for="_user.UserOrganizationId" /> *@
+            }
+
+            
+
+            
         </form>
     </div>
 
     <div>
         @foreach (var user in Model.Users)
         {
-            <div>@user.UserName</div>
+            <div>
+                <div>Фамилия сотрудника: @user.UserLastname</div>
+                <div>Имя сотрудника: @user.UserName</div>
+                <div>Отчество сотрудника: @user.UserSurname</div>
+                <div>Дата рождения сотрудника:  @user.BirthDate</div>
+                <div>Паспорт серия сотрудника: @user.PassportSerial</div>
+                <div>Паспорт номер сотрудника: @user.PassportNumber</div>
+                <div>Организация: @user.UserOrganizationId</div>
+            </div>
         }
     </div>
 </div>
+
+
+@section scripts {
+
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}
+
+
+
+@* <input type="text" placeholder="Организация" asp-for="_user.UserOrganizationId" /> *@
+@*             <select asp-for="Organization" asp-items="Model.selectlist">
+                <option value="">-- Выберите организацию --</option>
+            </select> *@

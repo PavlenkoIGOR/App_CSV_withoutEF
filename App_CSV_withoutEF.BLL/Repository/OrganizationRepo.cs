@@ -12,7 +12,7 @@ namespace App_CSV_withoutEF.BLL.Repository
     public interface IOrganizationRepo
     {
         public Task<Organization> GetOrganizationByTitle(string t);
-
+        public Task<List<Organization>> GetOrganizations();
     }
 
     public class OrganizationRepo : IOrganizationRepo
@@ -50,6 +50,40 @@ namespace App_CSV_withoutEF.BLL.Repository
                 await connection.CloseAsync();
             }
             return org;
+        }
+
+        public async Task<List<Organization>> GetOrganizations()
+        {
+            List<Organization> organizations = new List<Organization>();
+            string connectionString = _conf.GetConnectionString("ConnectToWebApp_toCSV_DB");
+
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                await connection.OpenAsync();
+                string selectUserByEmail = "select * from organizations";
+                using (SqlCommand command = new SqlCommand(selectUserByEmail, connection))
+                {
+                    //command.Parameters.AddWithValue("@email", email);
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            Organization org = new Organization()
+                            {
+                                OrgId = reader.GetInt32(0),//id
+                                Title_ORG = reader.GetString(1),//Title_ORG
+                                INN_ORG = reader.GetString(2),//INN_ORG                            
+                                UrAddress_ORG = reader.GetString(3),//UrAddress_ORG                                
+                                FactAddress_ORG = reader.GetString(3),//FactAddress_ORG                                
+                            };
+                            organizations.Add(org);
+                        }
+                        await reader.CloseAsync();
+                    }
+                }
+                await connection.CloseAsync();
+            }
+            return organizations;
         }
     }
 }

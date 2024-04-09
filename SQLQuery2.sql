@@ -55,4 +55,13 @@ go
 --)
 
 --select * from dbo.users
---select * from dbo.organizations
+select * from dbo.organizations
+
+--insert into organizations (title, inn, uradress, factaddress)
+--values 
+--(
+--	'New Corp',
+--	'1-as-32121',
+--	'юр адрес 111',
+--	'факт адрес 222'
+--)
