@@ -11,6 +11,8 @@ namespace App_CSV_withoutEF.MyPages
     public class OrganizationEditModel : PageModel
     {
         [BindProperty] public Organization organization { get; set; }
+        [BindProperty] public IEnumerable<CSV_Organization> csvOrg { get; set; }
+
         private IOrganizationRepo _organizationRepo;
         private ICommonRepo _commonRepo;
         private IMapper _mapper;
@@ -46,7 +48,13 @@ namespace App_CSV_withoutEF.MyPages
             organizations = await _organizationRepo.GetOrganizations();
             List<CSV_Organization> csv_Organizations = _mapper.Map<List<Organization>, List<CSV_Organization>>(organizations);
             await CSVManager.WritoToCSV(csv_Organizations);
+
             return RedirectToPage("/OrganizationEdit");
+        }
+
+        public async Task OnPostReadFromCSV()
+        {
+            csvOrg = await CSVManager.ReadFromCSV<CSV_Organization>();
         }
     }
 }

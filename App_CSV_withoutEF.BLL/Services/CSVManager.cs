@@ -2,54 +2,36 @@
 using CsvHelper;
 using CsvHelper.Configuration;
 using System.Globalization;
+using System.Net;
 using System.Text;
 
 namespace App_CSV_withoutEF.BLL.Services
 {
     public struct CSVManager
     {
-        private CSV_User userCSV;
-        private CSV_Organization organizationCSV;
-
-        //private List<CSV_User> usersCSV;
-        //private List<CSV_Organization> organizationsCSV;
-        private List<User> usersCSV;
-        private List<Organization> organizationsCSV;
-
-        public CSVManager(CSV_User cSV_User, CSV_Organization cSV_Organization)
-        {
-            userCSV = cSV_User;
-            organizationCSV = cSV_Organization;
-        }
-        //public Reader(List<CSV_User> users, List<CSV_Organization> organizations)
-        //{
-        //    usersCSV = users;
-        //    organizationsCSV = organizations;
-        //}
-        public CSVManager(List<User> users, List<Organization> organizations)
-        {
-            usersCSV = users;
-            organizationsCSV = organizations;
-        }
-
+        private static string _mainPath = "C:\\";
+        private static string _currentFolderName = "CSV";
+        private static string _usersSCVFile = "users.csv";
+        private static string _orgSCVFile = "organizations.csv";
 
         public static async Task WritoToCSV<T>(List<T> entity)
         {
-            string folder = Path.Combine("C:\\", "CSV");
+            string folder = Path.Combine(_mainPath, _currentFolderName);
             DirectoryInfo di = new DirectoryInfo(folder);
             if (!di.Exists)
             {
                 di.Create();
             }
 
-            string csvFilePath = ""; 
+            string csvFilePath = "";
             if (entity is List<CSV_User>)
             {
-                csvFilePath = Path.Combine(folder, "users.csv");                
+                csvFilePath = Path.Combine(folder, _usersSCVFile);
                 using (StreamWriter sw = new StreamWriter(csvFilePath, false, Encoding.GetEncoding("windows-1251")))
                 {
                     CsvConfiguration csvConf = new CsvConfiguration(CultureInfo.GetCultureInfo("ru-RU"))
                     {
+                        HasHeaderRecord = true,
                         Delimiter = ";"
                     };
                     using (CsvWriter csvWriter = new CsvWriter(sw, csvConf))
@@ -62,11 +44,12 @@ namespace App_CSV_withoutEF.BLL.Services
 
             else if (entity is List<CSV_Organization>)
             {
-                csvFilePath = Path.Combine(folder, "organizations.csv");
+                csvFilePath = Path.Combine(folder, _orgSCVFile);
                 using (StreamWriter sw = new StreamWriter(csvFilePath, false, Encoding.GetEncoding("windows-1251")))
                 {
                     CsvConfiguration csvConf = new CsvConfiguration(CultureInfo.GetCultureInfo("ru-RU"))
                     {
+                        HasHeaderRecord = true,
                         Delimiter = ";"
                     };
                     using (CsvWriter csvWriter = new CsvWriter(sw, csvConf))
@@ -76,9 +59,80 @@ namespace App_CSV_withoutEF.BLL.Services
                     sw.Close();
                 }
             }
+        }
 
+        public static async Task<List<T>> ReadFromCSV<T>()
+        {
+            T obj = default(T);
+            List<T> objectsList = new List<T>();
+            try
+            {
+                if (typeof(T) == typeof(CSV_Organization))
+                {
+                    using (StreamReader srCSV = new StreamReader(Path.Combine(_mainPath, _currentFolderName, _orgSCVFile), Encoding.GetEncoding("windows-1251")))
+                    {
+                        var csvConf = new CsvConfiguration(CultureInfo.GetCultureInfo("ru-RU"))
+                        {
+                            HasHeaderRecord = true,
+                            Delimiter = ";"
+                        };
+                        using (var csv = new CsvReader(srCSV, csvConf))
+                        {
+                            obj = (T)(object)new CSV_Organization();
+                            var record = new CSV_Organization();
+                            var records = csv.EnumerateRecords(record);
+                            foreach (var item in records)
+                            {
+                                objectsList.Add((T)(object)new CSV_Organization()
+                                {
+                                    OrgId_Reader = item.OrgId_Reader,
+                                    Title_ORG_Reader = item.Title_ORG_Reader,
+                                    INN_ORG_Reader = item.INN_ORG_Reader,
+                                    UrAddress_ORG_Reader = item.UrAddress_ORG_Reader,
+                                    FactAddress_ORG_Reader = item.FactAddress_ORG_Reader
+                                });
+                            }
+                        }
+                    }
+                }
+                else if (typeof(T) == typeof(CSV_User))
+                {
+                    using (StreamReader srCSV = new StreamReader(Path.Combine(_mainPath, _currentFolderName, _usersSCVFile), Encoding.GetEncoding("windows-1251")))
+                    {
+                        var csvConf = new CsvConfiguration(CultureInfo.GetCultureInfo("ru-RU"))
+                        {
+                            HasHeaderRecord = true,
+                            Delimiter = ";"
+                        };
+                        using (var csv = new CsvReader(srCSV, csvConf))
+                        {
+                            obj = (T)(object)new CSV_User();
+                            var record = new CSV_User();
+                            var records = csv.EnumerateRecords(record);
+                            foreach (var item in records)
+                            {
+                                objectsList.Add((T)(object)new CSV_User
+                                {
+                                    UserId_Reader = item.UserId_Reader,
+                                    UserName_Reader = item.UserName_Reader,
+                                    UserLastname_Reader = item.UserLastname_Reader,
+                                    UserSurname_Reader = item.UserSurname_Reader,
+                                    BirthDate_Reader = item.BirthDate_Reader,
+                                    PassportSerial_Reader = item.PassportSerial_Reader,
+                                    PassportNumber_Reader = item.PassportNumber_Reader,
+                                    UserOrganizationId_Reader = item.UserOrganizationId_Reader
+                                });
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
 
-
+                throw;
+            }
+            return objectsList;
         }
     }
 }

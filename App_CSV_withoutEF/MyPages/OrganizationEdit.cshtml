@@ -14,32 +14,51 @@
 
     <input type="submit" value="Добавить организацию" />
 </form>
-<form method="post">
-    <input type="submit" value="Записать CSV файл" asp-page-handler="WriteToCSV" />
-</form>
-<table>
-    <thead>
+<div style="position: relative; display: flex;">
+    <form method="post">
+        <input type="submit" value="Записать CSV файл" asp-page-handler="WriteToCSV" />
+    </form>
+    <form method="post">
+        <input type="submit" value="Считать CSV файл" asp-page-handler="ReadFromCSV" />
+    </form>
+</div>
+@if (Model.organizations != null)
+{
+    <table>
+        <thead>
         <td>Название организации</td>
         <td>ИНН</td>
         <td>Юридический адрес</td>
         <td>Фактический адрес</td>
-    </thead>
-    @foreach (var org in Model.organizations)
+        </thead>
+        @foreach (var org in Model.organizations)
+        {
+            <tr style="background-color: @(i % 2 == 0 ? "lightblue" : "bisque")">
+                <td>
+                    @org.Title_ORG
+                </td>
+                <td>
+                    @org.INN_ORG
+                </td>
+                <td>
+                    @org.UrAddress_ORG
+                </td>
+                <td>
+                    @org.FactAddress_ORG
+                </td>
+            </tr>
+            i++;
+        }
+    </table>
+}
+<div>    
+    @if (Model.csvOrg != null)
     {
-        <tr style="background-color: @(i % 2 == 0 ? "lightblue" : "bisque")">
-            <td>
-                @org.Title_ORG
-            </td>
-            <td>
-                @org.INN_ORG
-            </td>
-            <td>
-                @org.UrAddress_ORG
-            </td>
-            <td>
-                @org.FactAddress_ORG
-            </td>
-        </tr>
-        i++;
+        <h2>считано из файла</h2>
+        @foreach (var item in Model.csvOrg)
+        {
+            <div>@item.Title_ORG_Reader</div>
+        }
     }
-</table>
+
+</div>

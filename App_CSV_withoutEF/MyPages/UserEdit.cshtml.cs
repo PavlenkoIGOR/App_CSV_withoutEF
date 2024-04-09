@@ -16,6 +16,8 @@ namespace App_CSV_withoutEF.MyPages
         [BindProperty] public List<User> Users { get; set; }
         [BindProperty] public string Org_Title { get; set; }
         [BindProperty] public Organization Organization { get; set; }
+
+        public IEnumerable<CSV_User> csv_Users { get; set; }
         public List<SelectListItem> orgs { get; set; }
         public IEnumerable<Organization>? Organizations { get; set; }
 
@@ -34,6 +36,7 @@ namespace App_CSV_withoutEF.MyPages
         }
         public async void OnGet()
         {
+            Org_Title = "";
             Users = await _UserRepo.GetUsers();
 
             Organizations = await _OrganizationRepo.GetOrganizations();
@@ -73,6 +76,12 @@ namespace App_CSV_withoutEF.MyPages
             List<CSV_User> csv_Users = _mapper.Map<List<User>, List<CSV_User>>(Users);
             await CSVManager.WritoToCSV(csv_Users);
             return RedirectToPage("/UserEdit");
+        }
+
+        public async Task<IActionResult> OnPostReadFromCSV()
+        {
+            csv_Users = await CSVManager.ReadFromCSV<CSV_User>();
+            return RedirectToAction("OnGet");
         }
     }
 }

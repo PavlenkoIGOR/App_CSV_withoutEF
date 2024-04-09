@@ -24,28 +24,48 @@
             <span asp-validation-for="_user.PassportNumber"></span>
 
             @Html.DropDownListFor(model => model.Org_Title, Model.orgs, "--Выберите организацию--", new { @class = "form-select" })
-            <input type="submit" value="Добавить сотрудника" />            
+            <input type="submit" value="Добавить сотрудника" />
         </form>
     </div>
-    <form method="post">
-        <input type="submit" value="Записать CSV файл" asp-page-handler="WriteToCSV" />
-    </form>
-    <div>
-        @foreach (var user in Model.Users)
-        {
-            <a href="/edit/@user.UserOrganizationId" style="text-decoration: none;">
-            <div class="employee">
-                <div>Фамилия сотрудника: @user.UserLastname</div>
-                <div>Имя сотрудника: @user.UserName</div>
-                <div>Отчество сотрудника: @user.UserSurname</div>
-                <div>Дата рождения сотрудника:  @user.BirthDate</div>
-                <div>Паспорт серия сотрудника: @user.PassportSerial</div>
-                <div>Паспорт номер сотрудника: @user.PassportNumber</div>
-                <div>Организация: @user.UserOrganizationId</div>
-            </div>
-            </a>
-        }
+    <div style="position: relative; display: flex;">
+        <form method="post">
+            <input type="submit" value="Записать CSV файл" asp-page-handler="WriteToCSV" />
+        </form>
+        <form method="post">
+            <input type="submit" value="Считать CSV файл" asp-page-handler="ReadFromCSV" />
+        </form>
     </div>
+    @if (Model.Users != null)
+    {
+        <div>
+            @foreach (var user in Model.Users)
+            {
+                <a href="/edit/@user.UserOrganizationId" style="text-decoration: none;">
+                    <div class="employee">
+                        <div>Фамилия сотрудника: @user.UserLastname</div>
+                        <div>Имя сотрудника: @user.UserName</div>
+                        <div>Отчество сотрудника: @user.UserSurname</div>
+                        <div>Дата рождения сотрудника:  @user.BirthDate</div>
+                        <div>Паспорт серия сотрудника: @user.PassportSerial</div>
+                        <div>Паспорт номер сотрудника: @user.PassportNumber</div>
+                        <div>Организация: @user.UserOrganizationId</div>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</div>
+<div>
+    @if (Model.csv_Users != null)
+    {
+        <h2>считано из файла</h2>
+        @foreach (var item in Model.csv_Users)
+        {
+            <div>@item.UserLastname_Reader</div>
+            <div>@item.PassportSerial_Reader @item.PassportNumber_Reader</div>
+        }
+    }
+
 </div>
 
 
