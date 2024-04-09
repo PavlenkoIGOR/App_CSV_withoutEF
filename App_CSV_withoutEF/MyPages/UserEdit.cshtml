@@ -27,11 +27,14 @@
             <input type="submit" value="Добавить сотрудника" />            
         </form>
     </div>
-
+    <form method="post">
+        <input type="submit" value="Записать CSV файл" asp-page-handler="WriteToCSV" />
+    </form>
     <div>
         @foreach (var user in Model.Users)
         {
-            <div>
+            <a href="/edit/@user.UserOrganizationId" style="text-decoration: none;">
+            <div class="employee">
                 <div>Фамилия сотрудника: @user.UserLastname</div>
                 <div>Имя сотрудника: @user.UserName</div>
                 <div>Отчество сотрудника: @user.UserSurname</div>
@@ -40,6 +43,7 @@
                 <div>Паспорт номер сотрудника: @user.PassportNumber</div>
                 <div>Организация: @user.UserOrganizationId</div>
             </div>
+            </a>
         }
     </div>
 </div>

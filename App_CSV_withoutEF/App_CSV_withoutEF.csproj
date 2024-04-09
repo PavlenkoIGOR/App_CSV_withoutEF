@@ -11,4 +11,12 @@
     <ProjectReference Include="..\App_CSV_withoutEF.Data\App_CSV_withoutEF.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="CSV\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
+  </ItemGroup>
+
 </Project>

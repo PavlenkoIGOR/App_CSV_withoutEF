@@ -1,14 +1,45 @@
 ﻿@page
 @model App_CSV_withoutEF.MyPages.OrganizationEditModel
 @{
+    int i = 0;
+    string color = String.Empty;
 }
 <h1>Страница для работы с организациями</h1>
 
 <form style="display: grid;" method="post" asp-antiforgery="true">
-    <input type="text" placeholder="Название организации" asp-for="_Organization.Title_ORG" />
-    <input type="text" placeholder="ИНН организации" asp-for="_Organization.INN_ORG" />
-    <input type="text" placeholder="Юр.адрес организации" asp-for="_Organization.UrAddress_ORG" />
-    <input type="text" placeholder="Факт.адрес организации" asp-for="_Organization.FactAddress_ORG" />
+    <input type="text" placeholder="Название организации" asp-for="organization.Title_ORG" />
+    <input type="text" placeholder="ИНН организации" asp-for="organization.INN_ORG" />
+    <input type="text" placeholder="Юр.адрес организации" asp-for="organization.UrAddress_ORG" />
+    <input type="text" placeholder="Факт.адрес организации" asp-for="organization.FactAddress_ORG" />
 
-    <input type="submit" value="Добавить сотрудника" />
+    <input type="submit" value="Добавить организацию" />
 </form>
+<form method="post">
+    <input type="submit" value="Записать CSV файл" asp-page-handler="WriteToCSV" />
+</form>
+<table>
+    <thead>
+        <td>Название организации</td>
+        <td>ИНН</td>
+        <td>Юридический адрес</td>
+        <td>Фактический адрес</td>
+    </thead>
+    @foreach (var org in Model.organizations)
+    {
+        <tr style="background-color: @(i % 2 == 0 ? "lightblue" : "bisque")">
+            <td>
+                @org.Title_ORG
+            </td>
+            <td>
+                @org.INN_ORG
+            </td>
+            <td>
+                @org.UrAddress_ORG
+            </td>
+            <td>
+                @org.FactAddress_ORG
+            </td>
+        </tr>
+        i++;
+    }
+</table>
