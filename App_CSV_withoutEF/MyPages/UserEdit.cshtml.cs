@@ -4,6 +4,7 @@ using App_CSV_withoutEF.Pages;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 
 namespace App_CSV_withoutEF.MyPages
 {
@@ -14,9 +15,12 @@ namespace App_CSV_withoutEF.MyPages
         public SelectList selectlist { get; set; }
         [BindProperty] public List<Organization>? Organizations { get; set; }
         public Organization Organization { get; set; }
+
         [BindProperty(SupportsGet = true)] public string Org_Title { get; set; }
-        
-        
+
+        //[Required(ErrorMessage = "Не выбрана организация")]
+
+
 
 
 
@@ -24,8 +28,6 @@ namespace App_CSV_withoutEF.MyPages
         private IUserRepo _UserRepo;
         private IOrganizationRepo _OrganizationRepo;
 
-
-        //public new record class User(string UserName, string UserLastname, string UserSurname, DateTime BirthDate, int PassportSerial, int PassportNumber, int UserOrganizationId);
         public UserEditModel(ICommonRepo commonRepo, IUserRepo userRepo, IOrganizationRepo organizationRepo)
         {
             _CommonRepo = commonRepo;
@@ -39,7 +41,7 @@ namespace App_CSV_withoutEF.MyPages
             Organizations = await _OrganizationRepo.GetOrganizations();
             if (Organizations != null)
             {
-                selectlist = new SelectList(Organizations.Select(s => s.Title_ORG));
+                selectlist = new SelectList(Organizations.Select(s => s.Title_ORG), "Title_ORG");
             }
 
 

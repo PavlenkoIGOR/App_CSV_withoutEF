@@ -25,13 +25,13 @@
 
             @if (Model.Organizations != null)
             {
-                @Html.DropDownListFor(model => model.Org_Title, Model.selectlist, "--Выберите организацию--", new{@class=""})
+                @* @Html.DropDownListFor(model => model.Org_Title, Model.selectlist, "--Выберите организацию--", new{@class=""}) *@
+                @* <span asp-validation-for="@Model.Org_Title"></span> *@
                 <input type="submit" value="Добавить сотрудника" />
             }
             else
             {
                 <input type="submit" value="Указать организацию" />
-                @* <input type="text" placeholder="Организация" asp-for="_user.UserOrganizationId" /> *@
             }
 
             

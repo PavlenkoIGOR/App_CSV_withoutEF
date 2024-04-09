@@ -60,8 +60,8 @@ select * from dbo.users
 --insert into organizations (title, inn, uradress, factaddress)
 --values 
 --(
---	'New Corp',
---	'1-as-32121',
---	'юр адрес 111',
---	'факт адрес 222'
+--	'Co & LTM',
+--	'street 1',
+--	'юр адрес AAA',
+--	'факт адрес BBB'
 --)
