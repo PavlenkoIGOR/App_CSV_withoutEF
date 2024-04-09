@@ -30,7 +30,7 @@ namespace App_CSV_withoutEF.BLL.Repository
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string selectUserByEmail = "select * from users where title = @title";
+                string selectUserByEmail = "select * from organizations where title = @title";
                 using (SqlCommand command = new SqlCommand(selectUserByEmail, connection))
                 {
                     command.Parameters.AddWithValue("@title", t);

@@ -11,10 +11,10 @@ namespace App_CSV_withoutEF.MyPages
     {
         [BindProperty] public User _user { get; set; }
         [BindProperty] public IEnumerable<User> Users { get; set; }
-        [BindProperty] public SelectList selectlist { get; set; }
+        public SelectList selectlist { get; set; }
         [BindProperty] public List<Organization>? Organizations { get; set; }
         public Organization Organization { get; set; }
-        public string Org_Title { get; set; }
+        [BindProperty(SupportsGet = true)] public string Org_Title { get; set; }
         
         
 
@@ -41,7 +41,7 @@ namespace App_CSV_withoutEF.MyPages
             {
                 selectlist = new SelectList(Organizations.Select(s => s.Title_ORG));
             }
-            
+
 
             List<Organization> organizations = new List<Organization>();
         }
@@ -57,7 +57,7 @@ namespace App_CSV_withoutEF.MyPages
                 BirthDate = _user.BirthDate,
                 PassportSerial = _user.PassportSerial,
                 PassportNumber = _user.PassportNumber,
-                UserOrganizationId = _user.UserOrganizationId,
+                UserOrganizationId = org.OrgId,
             };
             int userID = await _CommonRepo.AddEntity(newUser);
         }

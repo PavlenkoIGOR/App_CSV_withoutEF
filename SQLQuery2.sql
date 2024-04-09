@@ -54,8 +54,8 @@ go
 --	1
 --)
 
---select * from dbo.users
-select * from dbo.organizations
+select * from dbo.users
+--select * from dbo.organizations
 
 --insert into organizations (title, inn, uradress, factaddress)
 --values 
