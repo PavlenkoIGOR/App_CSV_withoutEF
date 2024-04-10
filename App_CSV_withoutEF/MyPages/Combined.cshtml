@@ -1,0 +1,39 @@
+﻿@page
+@model App_CSV_withoutEF.MyPages.CombinedModel
+@{
+    int i = default;
+}
+<h1>Страница c объединённым списком</h1>
+
+@if (Model.common != null)
+{
+    i = 0;
+    <div class="divtable">
+        <table>
+            <thead>
+                <tr class="thead">
+                    <th>Организация</th>
+                    <th>Фамилия сотрудника</th>
+                    <th>Паспорт серия</th>
+                    <th>Паспорт номер</th>
+                </tr>
+            <thead />
+            <tbody>
+                    @foreach (var item in Model.common)
+                    {
+                    <tr style="background-color: @(i % 2 == 0 ? "lightblue" : "bisque")">
+                        <td>@item.orgTitle</td>
+                        <td>@item.employeeLastName</td>
+                        <td>@item.userPassportSerial</td>
+                        <td>@item.userPassportNumber</td>
+                    </tr>
+                    i++;
+                    }
+            </tbody>
+        </table>
+    </div>
+}
+else
+{
+    <h2>БД пуста</h2>
+}
