@@ -1,5 +1,6 @@
 using App_CSV_withoutEF.BLL.Repository;
 using App_CSV_withoutEF.BLL.Services;
+using App_CSV_withoutEF.MyPages;
 using AutoMapper;
 
 namespace App_CSV_withoutEF
@@ -15,8 +16,9 @@ namespace App_CSV_withoutEF
             builder.Services.AddRazorPages(opt => opt.RootDirectory = "/MyPages");
 
             builder.Services.AddScoped<ICommonRepo, CommonRepo>();
-            builder.Services.AddScoped<IUserRepo, UserRepo>();
+            builder.Services.AddSingleton<IUserRepo, UserRepo>();
             builder.Services.AddScoped<IOrganizationRepo, OrganizationRepo>();
+            builder.Services.AddSingleton<Employee>();
 
             builder.Services.AddAutoMapper((v) =>
             {

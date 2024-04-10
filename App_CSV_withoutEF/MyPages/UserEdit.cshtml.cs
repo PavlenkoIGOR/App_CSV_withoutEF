@@ -47,7 +47,6 @@ namespace App_CSV_withoutEF.MyPages
                     Text = org.Title_ORG,
                     Value = org.Title_ORG
                 }).ToList();
-
             }
         }
         public async Task<IActionResult> OnPost()
@@ -66,6 +65,14 @@ namespace App_CSV_withoutEF.MyPages
             };
             int userID = await _CommonRepo.AddEntity(newUser);
             Organizations = await _OrganizationRepo.GetOrganizations();
+            if (Organizations != null)
+            {
+                orgs = Organizations.Select(org => new SelectListItem
+                {
+                    Text = org.Title_ORG,
+                    Value = org.Title_ORG
+                }).ToList();
+            }
             Users = await _UserRepo.GetUsers();
             return RedirectToPage("/UserEdit");
         }
@@ -78,10 +85,20 @@ namespace App_CSV_withoutEF.MyPages
             return RedirectToPage("/UserEdit");
         }
 
-        public async Task<IActionResult> OnPostReadFromCSV()
+        public async Task OnPostReadFromCSV()
         {
             csv_Users = await CSVManager.ReadFromCSV<CSV_User>();
-            return RedirectToAction("OnGet");
+            Organizations = await _OrganizationRepo.GetOrganizations();
+            if (Organizations != null)
+            {
+                orgs = Organizations.Select(org => new SelectListItem
+                {
+                    Text = org.Title_ORG,
+                    Value = org.Title_ORG
+                }).ToList();
+            }
+            //Users = await _UserRepo.GetUsers();
+            //return RedirectToAction("OnGet");
         }
     }
 }

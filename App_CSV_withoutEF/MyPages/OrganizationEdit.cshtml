@@ -24,41 +24,46 @@
 </div>
 @if (Model.organizations != null)
 {
-    <table>
-        <thead>
-        <td>Название организации</td>
-        <td>ИНН</td>
-        <td>Юридический адрес</td>
-        <td>Фактический адрес</td>
-        </thead>
-        @foreach (var org in Model.organizations)
-        {
-            <tr style="background-color: @(i % 2 == 0 ? "lightblue" : "bisque")">
-                <td>
-                    @org.Title_ORG
-                </td>
-                <td>
-                    @org.INN_ORG
-                </td>
-                <td>
-                    @org.UrAddress_ORG
-                </td>
-                <td>
-                    @org.FactAddress_ORG
-                </td>
+    i = 0;
+    <div class="divtable">
+        <table>
+            <tr class="thead">
+            <th>Название организации</th>
+            <th>ИНН</th>
+            <th>Юридический адрес</th>
+            <th>Фактический адрес</th>
             </tr>
-            i++;
-        }
-    </table>
+            @foreach (var org in Model.organizations)
+            {
+                <tr style="background-color: @(i % 2 == 0 ? "lightblue" : "bisque")">
+                    <td>
+                        @org.Title_ORG
+                    </td>
+                    <td>
+                        @org.INN_ORG
+                    </td>
+                    <td>
+                        @org.UrAddress_ORG
+                    </td>
+                    <td>
+                        @org.FactAddress_ORG
+                    </td>
+                </tr>
+                i++;
+            }
+        </table>
+    </div>
 }
-<div>    
+<div>
     @if (Model.csvOrg != null)
     {
-        <h2>считано из файла</h2>
-        @foreach (var item in Model.csvOrg)
-        {
-            <div>@item.Title_ORG_Reader</div>
-        }
+        <div class="divtable">
+            <h2>считано из файла</h2>
+            @foreach (var item in Model.csvOrg)
+            {
+                <div>@item.Title_ORG_Reader</div>
+            }
+        </div>
     }
 
 </div>

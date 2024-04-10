@@ -1,6 +1,7 @@
 ﻿@page
 @model App_CSV_withoutEF.MyPages.UserEditModel
 @{
+    int i = 0;
 }
 <h1>Страница для работы с сотрудниками</h1>
 
@@ -37,42 +38,69 @@
     </div>
     @if (Model.Users != null)
     {
-        <div>
-            @foreach (var user in Model.Users)
-            {
-                <a href="/edit/@user.UserOrganizationId" style="text-decoration: none;">
-                    <div class="employee">
-                        <div>Фамилия сотрудника: @user.UserLastname</div>
-                        <div>Имя сотрудника: @user.UserName</div>
-                        <div>Отчество сотрудника: @user.UserSurname</div>
-                        <div>Дата рождения сотрудника:  @user.BirthDate</div>
-                        <div>Паспорт серия сотрудника: @user.PassportSerial</div>
-                        <div>Паспорт номер сотрудника: @user.PassportNumber</div>
-                        <div>Организация: @user.UserOrganizationId</div>
-                    </div>
-                </a>
-            }
+        i = 0;
+        <div class="divtable" style="">
+            <table>
+                <tr class="thead">
+                    <th>Фамилия сотрудника</th>
+                    <th>Имя сотрудника</th>
+                    <th>Отчество сотрудника</th>
+                    <th>Дата рождения сотрудника</th>
+                    <th>Паспорт серия сотрудника</th>
+                    <th>Паспорт номер сотрудника</th>
+                    <th>Организация</th>
+                </tr>
+
+                @foreach (var user in Model.Users)
+                {
+                    <tr style="background-color: @(i % 2 == 0 ? "lightblue" : "bisque")" onclick="window.location.href='/edit/@user.UserOrganizationId'">
+                        <td>@user.UserLastname</td>
+                        <td>@user.UserName</td>
+                        <td>@user.UserSurname</td>
+                        <td>@user.BirthDate</td>
+                        <td>@user.PassportSerial</td>
+                        <td>@user.PassportNumber</td>
+                        <td>@user.UserOrganizationId</td>
+                    </tr>
+                    i++;
+                }
+
+            </table>
         </div>
     }
 </div>
 <div>
     @if (Model.csv_Users != null)
     {
-        <h2>считано из файла</h2>
-        @foreach (var item in Model.csv_Users)
-        {
-            <div>@item.UserLastname_Reader</div>
-            <div>@item.PassportSerial_Reader @item.PassportNumber_Reader</div>
-        }
+        i = 0;
+        <div class="divtable">
+            <h2>считано из файла</h2>
+            <table>
+                <tr class="thead">
+                    <th>Фамилия</th>
+                    <th>Паспорт серия, номер</th>
+                </tr>
+                @foreach (var item in Model.csv_Users)
+                {
+                    <tr style="background-color: @(i % 2 == 0 ? "lightblue" : "bisque")">
+                        <td>@item.UserLastname_Reader</td>
+                        <td>@item.PassportSerial_Reader @item.PassportNumber_Reader</td>
+                    </tr>
+                    i++;
+                }
+            </table>
+        </div>
     }
 
 </div>
 
 
-@section scripts 
+@section scripts
 {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+
+
 }
 
 

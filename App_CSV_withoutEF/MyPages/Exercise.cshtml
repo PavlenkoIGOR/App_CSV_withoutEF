@@ -1,0 +1,17 @@
+﻿@page
+@model App_CSV_withoutEF.MyPages.ExerciseModel
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+}
+<h1>пробная страница</h1>
+
+<div>
+    <form method="post" asp-antiforgery="true">
+        @Html.DropDownListFor(x => x.Message1, Model.listItems, "----")
+        @* <select name="Name" asp-items="Model.listItems"></select> *@
+        <input type="submit" value="Экшон" />
+    </form>
+    <div>
+        @Model.Message1
+    </div>
+</div>

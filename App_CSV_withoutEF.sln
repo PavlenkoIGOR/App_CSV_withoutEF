@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App_CSV_withoutEF", "App_CS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App_CSV_withoutEF.Data", "App_CSV_withoutEF.Data\App_CSV_withoutEF.Data.csproj", "{7DC83F40-A119-4FA4-B900-D75589701559}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "App_CSV_withoutEF.BLL", "App_CSV_withoutEF.BLL\App_CSV_withoutEF.BLL.csproj", "{1EFEB92D-FB87-4D99-9EAE-1E13BF85A6E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "App_CSV_withoutEF.BLL", "App_CSV_withoutEF.BLL\App_CSV_withoutEF.BLL.csproj", "{1EFEB92D-FB87-4D99-9EAE-1E13BF85A6E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
