@@ -14,6 +14,35 @@ namespace App_CSV_withoutEF.BLL.Services
         private static string _usersSCVFile = "users.csv";
         private static string _orgSCVFile = "organizations.csv";
 
+        /// <summary>
+        /// Метод для определения наличия CSV-файла
+        /// </summary>
+        /// <param name="entity">Название класса-модели</param>
+        /// <returns></returns>
+        public static bool CheckCSVFile(string entity)
+        {
+            string file = "";
+            string folder = Path.Combine(_mainPath, _currentFolderName);
+            DirectoryInfo di = new DirectoryInfo(folder);
+            if (!di.Exists)
+            {
+                return false;
+            }
+            switch (entity.ToUpper()) 
+            {
+                case "USERS":
+                    file = Path.Combine(folder, _usersSCVFile);
+                    break;
+                case "ORGANIZATION":
+                    file = Path.Combine(folder, _orgSCVFile);
+                    break;
+            }
+            if (!File.Exists(file))
+            {
+                return false;
+            }
+            return true;
+        }
         public static async Task WritoToCSV<T>(List<T> entity)
         {
             string folder = Path.Combine(_mainPath, _currentFolderName);
@@ -129,7 +158,6 @@ namespace App_CSV_withoutEF.BLL.Services
             }
             catch (Exception)
             {
-
                 throw;
             }
             return objectsList;

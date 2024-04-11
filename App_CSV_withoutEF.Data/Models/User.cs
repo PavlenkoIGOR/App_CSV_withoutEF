@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace App_CSV_withoutEF.Data.Models
 {
-    public class User
+    public class User : IDisposable
     {
         public int UserId { get; set; }
 
@@ -25,11 +25,16 @@ namespace App_CSV_withoutEF.Data.Models
         public DateTime BirthDate { get; set; }
         
         [Required(ErrorMessage = "Поле обязательно для заполнения")] 
-        public int PassportSerial { get; set; }
+        public string PassportSerial { get; set; }
         
         [Required(ErrorMessage = "Поле обязательно для заполнения")]
-        public int PassportNumber { get; set; }
+        public string PassportNumber { get; set; }
         
         public int UserOrganizationId { get; set; }
+
+        public void Dispose()
+        {
+            GC.Collect();
+        }
     }
 }

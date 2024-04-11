@@ -10,8 +10,8 @@ namespace App_CSV_withoutEF.MyPages
     {
         internal string orgTitle { get; set; }
         internal string employeeLastName { get; set; }
-        internal int userPassportSerial { get; set; }
-        internal int userPassportNumber { get; set; }
+        internal string userPassportSerial { get; set; }
+        internal string userPassportNumber { get; set; }
     }
 
     public class CombinedModel : PageModel

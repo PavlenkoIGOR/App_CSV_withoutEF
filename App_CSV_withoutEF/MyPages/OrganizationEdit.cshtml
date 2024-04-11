@@ -54,16 +54,10 @@
         </table>
     </div>
 }
-<div>
-    @if (Model.csvOrg != null)
-    {
-        <div class="divtable">
-            <h2>считано из файла</h2>
-            @foreach (var item in Model.csvOrg)
-            {
-                <div>@item.Title_ORG_Reader</div>
-            }
-        </div>
-    }
 
-</div>
+
+@section scripts
+{
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+}

@@ -1,0 +1,36 @@
+﻿@{
+    int i = default;
+}
+
+<div>
+    @if (Model.csv_Users != null)
+    {
+        <form method="post">
+            <input type="submit" value="Добавить в БД"/>
+        </form>
+        i = 0;
+        <div class="divtable">
+            <h2>считано из файла</h2>
+            <table>
+                <tr class="thead">
+                    <th>Фамилия</th>
+                    <th>Паспорт серия, номер</th>
+                </tr>
+                @foreach (var item in Model.csv_Users)
+                {
+                    <tr style="background-color: @(i % 2 == 0 ? "lightblue" : "bisque")">
+                        <td>@item.UserLastname_Reader</td>
+                        <td>@item.PassportSerial_Reader @item.PassportNumber_Reader</td>
+                    </tr>
+                    i++;
+                }
+            </table>
+        </div>
+    }
+    else
+    {
+        <div>
+            <h1>Файл пуст</h1>
+        </div>
+    }
+</div>

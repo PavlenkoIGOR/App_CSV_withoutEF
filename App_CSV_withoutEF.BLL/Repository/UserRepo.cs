@@ -1,18 +1,12 @@
 ﻿using App_CSV_withoutEF.Data.Models;
 using Microsoft.Data.SqlClient;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace App_CSV_withoutEF.BLL.Repository
 {
     public interface IUserRepo
     {
-        public User GetUserByEmail(string email);
+        public Task<User> GetUserByPassport(string passportSerial, string passportNumber);
         public Task<List<User>> GetUsers();
     }
 
@@ -24,17 +18,18 @@ namespace App_CSV_withoutEF.BLL.Repository
             _conf = conf;
         }
 
-        public User GetUserByEmail(string email)
+        public async Task<User> GetUserByPassport(string passportSerial,string passportNumber)
         {
             string connectionString = _conf.GetConnectionString("ConnectToWebApp_toCSV_DB");
             User user = new User();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
                 connection.Open();
-                string selectUserByEmail = "select * from users where email = @email";
+                string selectUserByEmail = "select * from users where passportserial = @passportserial and passportnumber = @passportnumber";
                 using (SqlCommand command = new SqlCommand(selectUserByEmail, connection))
                 {
-                    command.Parameters.AddWithValue("@email", email);
+                    command.Parameters.AddWithValue("@passportserial", passportSerial);
+                    command.Parameters.AddWithValue("@passportnumber", passportNumber);
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -44,14 +39,14 @@ namespace App_CSV_withoutEF.BLL.Repository
                             user.UserLastname = reader.GetString(2);//UserLastname                            
                             user.UserSurname = reader.GetString(3);//UserSurname
                             user.BirthDate = reader.GetDateTime(4);//BirthDate
-                            user.PassportSerial = reader.GetInt32(5);//PassportSerial
-                            user.PassportNumber = reader.GetInt32(6);//PassportNumber
+                            user.PassportSerial = reader.GetString(5);//PassportSerial
+                            user.PassportNumber = reader.GetString(6);//PassportNumber
                             user.UserOrganizationId = reader.GetInt32(7);//UserOrganizationId
                         }
-                        reader.CloseAsync();
+                        await reader.CloseAsync();
                     }
                 }
-                connection.CloseAsync();
+                await connection.CloseAsync();
             }
             return user;
         }
@@ -79,8 +74,8 @@ namespace App_CSV_withoutEF.BLL.Repository
                                 UserLastname = reader.GetString(2),//UserLastname                            
                                 UserSurname = reader.GetString(3),//UserSurname
                                 BirthDate = reader.GetDateTime(4),//BirthDate
-                                PassportSerial = reader.GetInt32(5),//PassportSerial
-                                PassportNumber = reader.GetInt32(6),//PassportNumber
+                                PassportSerial = reader.GetString(5),//PassportSerial
+                                PassportNumber = reader.GetString(6),//PassportNumber
                                 UserOrganizationId = reader.GetInt32(7),//UserOrganizationId
                             };
                             users.Add(user);

@@ -18,6 +18,7 @@
             <span asp-validation-for="_user.UserSurname"></span>
 
             <input type="Date" placeholder="Дата рождения" asp-for="_user.BirthDate " />
+
             <input type="number" placeholder="Паспорт серия" asp-for="_user.PassportSerial" />
             <span asp-validation-for="_user.PassportSerial"></span>
 
@@ -28,6 +29,7 @@
             <input type="submit" value="Добавить сотрудника" />
         </form>
     </div>
+
     <div style="position: relative; display: flex;">
         <form method="post">
             <input type="submit" value="Записать CSV файл" asp-page-handler="WriteToCSV" />
@@ -69,43 +71,12 @@
         </div>
     }
 </div>
-<div>
-    @if (Model.csv_Users != null)
-    {
-        i = 0;
-        <div class="divtable">
-            <h2>считано из файла</h2>
-            <table>
-                <tr class="thead">
-                    <th>Фамилия</th>
-                    <th>Паспорт серия, номер</th>
-                </tr>
-                @foreach (var item in Model.csv_Users)
-                {
-                    <tr style="background-color: @(i % 2 == 0 ? "lightblue" : "bisque")">
-                        <td>@item.UserLastname_Reader</td>
-                        <td>@item.PassportSerial_Reader @item.PassportNumber_Reader</td>
-                    </tr>
-                    i++;
-                }
-            </table>
-        </div>
-    }
 
-</div>
+
 
 
 @section scripts
 {
     <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-
-
 }
-
-
-
-@* <input type="text" placeholder="Организация" asp-for="_user.UserOrganizationId" /> *@
-@*             <select asp-for="Organization" asp-items="Model.selectlist">
-                <option value="">-- Выберите организацию --</option>
-            </select> *@

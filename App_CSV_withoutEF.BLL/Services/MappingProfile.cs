@@ -23,6 +23,16 @@ namespace App_CSV_withoutEF.BLL.Services
                 .ForMember(dest => dest.PassportNumber_Reader, opt => opt.MapFrom(src => src.PassportNumber))
                 .ForMember(dest => dest.UserOrganizationId_Reader, opt => opt.MapFrom(src => src.UserOrganizationId));
 
+            CreateMap<CSV_User, User>()
+                .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.UserId_Reader))
+                .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.UserName_Reader))
+                .ForMember(dest => dest.UserLastname, opt => opt.MapFrom(src => src.UserLastname_Reader))
+                .ForMember(dest => dest.UserSurname, opt => opt.MapFrom(src => src.UserSurname_Reader))
+                .ForMember(dest => dest.BirthDate, opt => opt.MapFrom(src => src.BirthDate_Reader))
+                .ForMember(dest => dest.PassportSerial, opt => opt.MapFrom(src => src.PassportSerial_Reader))
+                .ForMember(dest => dest.PassportNumber, opt => opt.MapFrom(src => src.PassportNumber_Reader))
+                .ForMember(dest => dest.UserOrganizationId, opt => opt.MapFrom(src => src.UserOrganizationId_Reader));
+
             CreateMap<Organization, CSV_Organization>()
                 .ForMember(dest => dest.OrgId_Reader, opt => opt.MapFrom(src => src.OrgId))
                 .ForMember(dest => dest.Title_ORG_Reader, opt => opt.MapFrom(src => src.Title_ORG))

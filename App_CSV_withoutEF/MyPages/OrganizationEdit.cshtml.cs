@@ -11,7 +11,7 @@ namespace App_CSV_withoutEF.MyPages
     public class OrganizationEditModel : PageModel
     {
         [BindProperty] public Organization organization { get; set; }
-        [BindProperty] public IEnumerable<CSV_Organization> csvOrg { get; set; }
+        
 
         private IOrganizationRepo _organizationRepo;
         private ICommonRepo _commonRepo;
@@ -39,7 +39,7 @@ namespace App_CSV_withoutEF.MyPages
                 UrAddress_ORG = organization.UrAddress_ORG,
                 FactAddress_ORG = organization.FactAddress_ORG
             };
-            int orgId = await _commonRepo.AddEntity(newOrganization);
+            int orgId = await _commonRepo.AddEntityAndGetId(newOrganization);
             return RedirectToPage("/OrganizationEdit");
         }
 
@@ -52,9 +52,10 @@ namespace App_CSV_withoutEF.MyPages
             return RedirectToPage("/OrganizationEdit");
         }
 
-        public async Task OnPostReadFromCSV()
+        public async Task<IActionResult> OnPostReadFromCSV()
         {
-            csvOrg = await CSVManager.ReadFromCSV<CSV_Organization>();
+            //csvOrg = await CSVManager.ReadFromCSV<CSV_Organization>();
+            return RedirectToPage("/OrgFromCSV");
         }
     }
 }

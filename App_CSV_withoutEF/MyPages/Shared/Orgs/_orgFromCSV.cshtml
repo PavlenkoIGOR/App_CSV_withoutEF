@@ -1,0 +1,39 @@
+﻿@{
+    int i = default;
+}
+
+
+<div>
+    @if (Model.csvOrg != null)
+    {
+        i = 0;
+        <h2>считано из файла</h2>
+        <div class="divtable">
+            <table>
+                <thead class="thead">
+                <th>Название организации</th>
+                <th>ИНН организации</th>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.csvOrg)
+                    {
+                        <tr style="background-color: @(i % 2 == 0 ? "lightblue" : "bisque")">
+                            <td>@item.Title_ORG_Reader</td>
+                            <td>@item.INN_ORG_Reader</td>
+                        </tr>
+                        i++;
+                    }
+                </tbody>
+            </table>
+        </div>
+        <form method="post">
+            <input />
+        </form>
+    }
+    else
+    {
+        <div>
+            <h1>Файл не найден</h1>
+        </div>
+    }
+</div>

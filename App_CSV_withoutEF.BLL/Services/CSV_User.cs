@@ -1,9 +1,5 @@
 ﻿using CsvHelper.Configuration.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CsvHelper.TypeConversion;
 
 namespace App_CSV_withoutEF.BLL.Services
 {
@@ -25,10 +21,12 @@ namespace App_CSV_withoutEF.BLL.Services
         public DateTime? BirthDate_Reader { get; set; }
 
         [Name("Паспорт серия")]
-        public int? PassportSerial_Reader { get; set; }
+        [TypeConverter(typeof(StringConverter))]
+        public string? PassportSerial_Reader { get; set; }
 
         [Name("Паспорт номер")]
-        public int? PassportNumber_Reader { get; set; }
+        [TypeConverter(typeof(StringConverter))]
+        public string? PassportNumber_Reader { get; set; }
 
         [Name("Код организации")]
         public int? UserOrganizationId_Reader { get; set; }

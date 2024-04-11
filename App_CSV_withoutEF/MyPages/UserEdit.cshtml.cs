@@ -63,7 +63,7 @@ namespace App_CSV_withoutEF.MyPages
                 PassportNumber = _user.PassportNumber,
                 UserOrganizationId = org.OrgId,
             };
-            int userID = await _CommonRepo.AddEntity(newUser);
+            int userID = await _CommonRepo.AddEntityAndGetId(newUser);
             Organizations = await _OrganizationRepo.GetOrganizations();
             if (Organizations != null)
             {
@@ -85,20 +85,9 @@ namespace App_CSV_withoutEF.MyPages
             return RedirectToPage("/UserEdit");
         }
 
-        public async Task OnPostReadFromCSV()
+        public IActionResult OnPostReadFromCSV()
         {
-            csv_Users = await CSVManager.ReadFromCSV<CSV_User>();
-            Organizations = await _OrganizationRepo.GetOrganizations();
-            if (Organizations != null)
-            {
-                orgs = Organizations.Select(org => new SelectListItem
-                {
-                    Text = org.Title_ORG,
-                    Value = org.Title_ORG
-                }).ToList();
-            }
-            //Users = await _UserRepo.GetUsers();
-            //return RedirectToAction("OnGet");
+            return RedirectToPage("UsersFromCSV");
         }
     }
 }
