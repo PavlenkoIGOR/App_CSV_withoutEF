@@ -1,9 +1,5 @@
 ﻿using CsvHelper.Configuration.Attributes;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CsvHelper.TypeConversion;
 
 namespace App_CSV_withoutEF.BLL.Services
 {
@@ -16,6 +12,7 @@ namespace App_CSV_withoutEF.BLL.Services
         public string? Title_ORG_Reader { get; set; }
 
         [Name("ИНН организации")]
+        [TypeConverter(typeof(StringConverter))]
         public string? INN_ORG_Reader { get; set; }
 
         [Name("Юридический адрес организации")]

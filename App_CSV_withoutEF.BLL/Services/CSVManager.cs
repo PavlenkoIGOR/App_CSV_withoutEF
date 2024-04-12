@@ -94,6 +94,7 @@ namespace App_CSV_withoutEF.BLL.Services
         {
             T obj = default(T);
             List<T> objectsList = new List<T>();
+            char[] charsToTrim = { '=', '\"' };
             try
             {
                 if (typeof(T) == typeof(CSV_Organization))
@@ -116,7 +117,7 @@ namespace App_CSV_withoutEF.BLL.Services
                                 {
                                     OrgId_Reader = item.OrgId_Reader,
                                     Title_ORG_Reader = item.Title_ORG_Reader,
-                                    INN_ORG_Reader = item.INN_ORG_Reader,
+                                    INN_ORG_Reader = item.INN_ORG_Reader.Trim(charsToTrim),
                                     UrAddress_ORG_Reader = item.UrAddress_ORG_Reader,
                                     FactAddress_ORG_Reader = item.FactAddress_ORG_Reader
                                 });
@@ -131,11 +132,12 @@ namespace App_CSV_withoutEF.BLL.Services
                         var csvConf = new CsvConfiguration(CultureInfo.GetCultureInfo("ru-RU"))
                         {
                             HasHeaderRecord = true,
-                            Delimiter = ";"
+                            Delimiter = ";"                            
                         };
                         using (var csv = new CsvReader(srCSV, csvConf))
                         {
                             obj = (T)(object)new CSV_User();
+                            
                             var record = new CSV_User();
                             var records = csv.EnumerateRecords(record);
                             foreach (var item in records)
@@ -147,8 +149,8 @@ namespace App_CSV_withoutEF.BLL.Services
                                     UserLastname_Reader = item.UserLastname_Reader,
                                     UserSurname_Reader = item.UserSurname_Reader,
                                     BirthDate_Reader = item.BirthDate_Reader,
-                                    PassportSerial_Reader = item.PassportSerial_Reader,
-                                    PassportNumber_Reader = item.PassportNumber_Reader,
+                                    PassportSerial_Reader = item.PassportSerial_Reader.Trim(charsToTrim),
+                                    PassportNumber_Reader = item.PassportNumber_Reader.Trim(charsToTrim),
                                     UserOrganizationId_Reader = item.UserOrganizationId_Reader
                                 });
                             }

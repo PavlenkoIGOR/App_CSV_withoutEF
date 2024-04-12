@@ -39,6 +39,13 @@ namespace App_CSV_withoutEF.BLL.Services
                 .ForMember(dest => dest.INN_ORG_Reader, opt => opt.MapFrom(src => src.INN_ORG))
                 .ForMember(dest => dest.UrAddress_ORG_Reader, opt => opt.MapFrom(src => src.UrAddress_ORG))
                 .ForMember(dest => dest.FactAddress_ORG_Reader, opt => opt.MapFrom(src => src.FactAddress_ORG));
+
+            CreateMap<CSV_Organization, Organization>()
+                .ForMember(dest => dest.OrgId, opt => opt.MapFrom(src => src.OrgId_Reader))
+                .ForMember(dest => dest.Title_ORG, opt => opt.MapFrom(src => src.Title_ORG_Reader))
+                .ForMember(dest => dest.INN_ORG, opt => opt.MapFrom(src => src.INN_ORG_Reader))
+                .ForMember(dest => dest.UrAddress_ORG, opt => opt.MapFrom(src => src.UrAddress_ORG_Reader))
+                .ForMember(dest => dest.FactAddress_ORG, opt => opt.MapFrom(src => src.FactAddress_ORG_Reader));
         }
     }
 }
