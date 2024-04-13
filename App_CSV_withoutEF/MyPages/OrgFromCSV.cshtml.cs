@@ -14,14 +14,13 @@ namespace App_CSV_withoutEF.MyPages
         private IOrganizationRepo _OrganizationRepo;
         private IMapper _mapper;
 
-        public List<CSV_Organization> csvOrg { get; set; }
+        [BindProperty]public List<CSV_Organization>? csvOrg { get; set; }
         public OrgFromCSVModel(ICommonRepo commonRepo, IUserRepo userRepo, IOrganizationRepo organizationRepo, IMapper mapper)
         {
             _CommonRepo = commonRepo;
             _UserRepo = userRepo;
             _OrganizationRepo = organizationRepo;
             _mapper = mapper;
-            csvOrg = null;
         }
         public async Task OnGet()
         {

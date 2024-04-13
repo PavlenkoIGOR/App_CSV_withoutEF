@@ -42,7 +42,7 @@ namespace App_CSV_withoutEF.BLL.Repository
                             org.Title_ORG = reader.GetString(1);//Title_ORG
                             org.INN_ORG = reader.GetString(2);//INN_ORG                            
                             org.UrAddress_ORG = reader.GetString(3);//UrAddress_ORG
-                            org.FactAddress_ORG = reader.GetString(3);//FactAddress_ORG
+                            org.FactAddress_ORG = reader.GetString(4);//FactAddress_ORG
                         }
                         await reader.CloseAsync();
                     }
@@ -74,7 +74,7 @@ namespace App_CSV_withoutEF.BLL.Repository
                                 Title_ORG = reader.GetString(1),//Title_ORG
                                 INN_ORG = reader.GetString(2),//INN_ORG                            
                                 UrAddress_ORG = reader.GetString(3),//UrAddress_ORG                                
-                                FactAddress_ORG = reader.GetString(3),//FactAddress_ORG                                
+                                FactAddress_ORG = reader.GetString(4),//FactAddress_ORG                                
                             };
                             organizations.Add(org);
                         }

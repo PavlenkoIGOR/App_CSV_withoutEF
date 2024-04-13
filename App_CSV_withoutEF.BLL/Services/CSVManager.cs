@@ -33,7 +33,7 @@ namespace App_CSV_withoutEF.BLL.Services
                 case "USERS":
                     file = Path.Combine(folder, _usersSCVFile);
                     break;
-                case "ORGANIZATION":
+                case "ORGANIZATIONS":
                     file = Path.Combine(folder, _orgSCVFile);
                     break;
             }

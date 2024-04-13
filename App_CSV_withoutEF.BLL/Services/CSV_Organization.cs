@@ -11,9 +11,12 @@ namespace App_CSV_withoutEF.BLL.Services
         [Name("Название организации")]
         public string? Title_ORG_Reader { get; set; }
 
-        [Name("ИНН организации")]
+        [Ignore]
         [TypeConverter(typeof(StringConverter))]
         public string? INN_ORG_Reader { get; set; }
+
+        [Name("ИНН организации")]
+        public string? INN_ORG_Convert_Reader { get { return $"=\"{INN_ORG_Reader}\""; } set { INN_ORG_Reader = value; } }
 
         [Name("Юридический адрес организации")]
         public string? UrAddress_ORG_Reader { get; set; }

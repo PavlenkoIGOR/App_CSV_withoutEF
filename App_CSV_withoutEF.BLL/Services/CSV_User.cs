@@ -24,16 +24,14 @@ namespace App_CSV_withoutEF.BLL.Services
         [TypeConverter(typeof(StringConverter))]
         public string? PassportSerial_Reader { get; set; }
 
-        [Name("Паспорт серия")]
-        
+        [Name("Паспорт серия")]        
         public string? PassportSerialConvert_Reader { get { return $"=\"{PassportSerial_Reader}\""; } set { PassportSerial_Reader = value; } }
 
         [Ignore]
         [TypeConverter(typeof(StringConverter))]
         public string? PassportNumber_Reader { get; set; }
 
-        [Name("Паспорт номер")]
-        
+        [Name("Паспорт номер")]        
         public string? PassportNumberConvert_Reader { get { return $"=\"{PassportNumber_Reader}\""; } set { PassportNumber_Reader = value; } }
 
         [Name("Код организации")]
