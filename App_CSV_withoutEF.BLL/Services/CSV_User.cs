@@ -5,7 +5,7 @@ namespace App_CSV_withoutEF.BLL.Services
 {
     public class CSV_User
     {
-        [Name("Позиция товара")]
+        [Name("Id сотрудника")]
         public int? UserId_Reader { get; set; }
         
         [Name("Имя")]

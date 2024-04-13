@@ -35,6 +35,8 @@ go
 
 --EXEC sp_rename 'organization', 'organizations';
 
+
+
 --insert into organizations (title, inn, uradress, factaddress)
 --values 
 --(
@@ -55,8 +57,6 @@ go
 --	'567890',
 --	1
 --)
-
-
 
 --insert into organizations (title, inn, uradress, factaddress)
 --values 
@@ -79,11 +79,30 @@ go
 --	2
 --)
 
-delete from dbo.users
-where id = 6
+--delete from dbo.users
+--where id = 6
 
-select * from dbo.users
---select * from dbo.organizations
+--select * from dbo.users
+select * from dbo.organizations
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 --/*бинарный поиск*/
 --WITH RECURSIVE BinarySearch AS (
